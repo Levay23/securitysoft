@@ -158,7 +158,8 @@ async def dashboard(request: Request):
             th { text-align: left; color: var(--text-muted); font-weight: 400; padding: 12px; border-bottom: 1px solid #334155; }
             td { padding: 16px 12px; border-bottom: 1px solid #334155; vertical-align: middle; }
             
-            .key-cell { font-family: monospace; color: var(--primary); font-size: 0.9rem; }
+            .key-cell { font-family: monospace; color: var(--primary); font-size: 0.9rem; cursor: pointer; position: relative;}
+            .key-cell:hover { text-decoration: underline; }
             .status-active { color: var(--success); font-weight: bold; }
             .status-inactive { color: var(--danger); font-weight: bold; }
             .status-expired { color: var(--warning); font-weight: bold; }
@@ -243,6 +244,16 @@ async def dashboard(request: Request):
         </div>
 
         <script>
+            function copyKey(element, key) {
+                navigator.clipboard.writeText(key).then(() => {
+                    const originalText = element.innerText;
+                    element.innerHTML = "<span style='color:var(--success)'>¡COPIADO!</span>";
+                    setTimeout(() => {
+                        element.innerText = key;
+                    }, 1000);
+                });
+            }
+
             function openModal() { document.getElementById('newKeyModal').style.display = 'flex'; }
             function closeModal() { document.getElementById('newKeyModal').style.display = 'none'; }
 
@@ -278,7 +289,7 @@ async def dashboard(request: Request):
                         tr.innerHTML = `
                             <td>${lic.id}</td>
                             <td><strong>${lic.bot_name || 'Generic'}</strong></td>
-                            <td class="key-cell" title="${lic.key}">${lic.key.substring(0,25)}...</td>
+                            <td class="key-cell" onclick="copyKey(this, '${lic.key}')" title="Clic para copiar">${lic.key}</td>
                             <td>${lic.note || '-'}</td>
                             <td>${lic.hwid ? '<span style="font-family:monospace; font-size:0.8rem">'+lic.hwid+'</span>' : '<em style="color:#64748b;">Esperando...</em>'}</td>
                             <td style="font-size:0.9rem">${expirationText}</td>

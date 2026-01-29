@@ -16,7 +16,9 @@ class License(Base):
     is_active = Column(Boolean, default=True)
     created_at = Column(DateTime, default=datetime.datetime.utcnow)
     activated_at = Column(DateTime, nullable=True)
-    note = Column(String, nullable=True) # Para saber a quién se le vendió
+    expires_at = Column(DateTime, nullable=True) # Fecha de vencimiento
+    note = Column(String, nullable=True) # Cliente
+    bot_name = Column(String, default="Unknown Bot") # Nombre del Bot
 
 # Configuración de base de datos HÍBRIDA (Local: SQLite, Nube: PostgreSQL)
 DATABASE_URL = os.getenv("DATABASE_URL")

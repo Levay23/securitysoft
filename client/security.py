@@ -3,7 +3,7 @@ import requests
 import sys
 
 # URL del servidor local (cambiar a la IP del VPS en producción)
-SERVER_URL = "http://localhost:8000"
+SERVER_URL = "https://securitysoft.onrender.com"
 
 def get_hwid():
     """Genera un ID único para la PC basado en el Serial Number del disco principal."""
@@ -42,6 +42,9 @@ def check_license(license_key):
             if reason == "key_disabled":
                 print(f"[-] LICENCIA BLOQUEADA: {message}")
                 print("[-] Tu acceso ha sido suspendido. Contacta a SOPORTE.")
+            elif reason == "expired":
+                print(f"[-] LICENCIA VENCIDA: {message}")
+                print("[-] Tu tiempo de suscripción ha terminado. Por favor renueva tu licencia.")
             elif reason == "hwid_mismatch":
                 print(f"[-] ERROR DE HARDWARE: {message}")
                 print("[-] Esta licencia no pertenece a este equipo.")
